@@ -1,6 +1,4 @@
 import {
-  availableDataHighlights,
-  availableDataSections,
   derivedAnalyticsCatalog,
   dieselAlarmCatalog,
   electricAlarmCatalog,
