@@ -41,7 +41,8 @@ export const siteRecords: SiteRecord[] = [
     controller: 'Firetrol Mk3 Electric',
     impairmentType: 'MODBUS Communication failure',
     proposedFix: 'Ethernet Cable needs inspected for bad connection.',
-    workOrderStage: 'Resolved'
+    workOrderStage: 'Resolved',
+    severity: 'High',
   },
   {
     id: 'hd-1002',
@@ -58,7 +59,8 @@ export const siteRecords: SiteRecord[] = [
     controller: 'Firetrol Mk3 Diesel',
     impairmentType: 'Poor Cell Signal',
     proposedFix: 'Antenna connection needs replaced or inspected for interferance.',
-    workOrderStage: 'Field Tech Deployed'
+    workOrderStage: 'Field Tech Deployed',
+    severity: 'Low',
   },
   {
     id: 'hd-1003',
@@ -74,7 +76,8 @@ export const siteRecords: SiteRecord[] = [
     controller: 'Firetrol Mk3 Electric',
     impairmentType: 'Phase Failure',
     proposedFix: 'Measure incoming voltage to check which is the failure.',
-    workOrderStage: 'Not Started'
+    workOrderStage: 'Not Started',
+    severity: 'Critical',
   },
   {
     id: 'hd-1004',
@@ -91,7 +94,8 @@ export const siteRecords: SiteRecord[] = [
     controller: 'Eaton Touch Diesel',
     impairmentType: 'Battery Charger #2 Failure',
     proposedFix: 'Battery Charger #2 needs replaced (Poor Current readings)',
-    workOrderStage: 'Work Order Created'
+    workOrderStage: 'Work Order Created',
+    severity: 'Low',
   },
   {
     id: 'hd-1005',
@@ -107,7 +111,8 @@ export const siteRecords: SiteRecord[] = [
     controller: 'Firetrol Mk3 Electric',
     impairmentType: 'Transfer Switch Emergency',
     proposedFix: 'Restore main power supply to the control board',
-    workOrderStage: 'Field Tech Deployed'
+    workOrderStage: 'Field Tech Deployed',
+    severity: 'High',
   },
   {
     id: 'hd-1006',
@@ -122,9 +127,10 @@ export const siteRecords: SiteRecord[] = [
     fuelLevelPercent: 40,
     assetId: 'DSL-1006-A',
     controller: 'Firetrol Mk3 Diesel',
-    impairmentType: 'Condition requires attention',
-    proposedFix: 'Dispatch service team to evaluate controller and restore normal operation.',
-    workOrderStage: 'Work Order Created'
+    impairmentType: 'Fuel Level Low',
+    proposedFix: 'Need to Schedule refueling of diesel tank.',
+    workOrderStage: 'Work Order Created',
+    severity: 'Medium',
   },
   {
     id: 'hd-1007',
@@ -140,7 +146,8 @@ export const siteRecords: SiteRecord[] = [
     controller: 'Firetrol Mk3 Electric',
     impairmentType: 'Interlock ON',
     proposedFix: 'Enter controller settings to turn interlock OFF',
-    workOrderStage: 'Field Tech Deployed'
+    workOrderStage: 'Field Tech Deployed',
+    severity: 'Critical',
   },
   {
     id: 'hd-1008',

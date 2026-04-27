@@ -2,6 +2,7 @@ export type DriverType = 'Electric' | 'Diesel';
 export type TestStatus = 'Tested' | 'Not Tested';
 export type ImpairmentStatus = 'In Service' | 'Out >10h';
 export type WorkOrderStage = 'Not Started' | 'Work Order Created' | 'Field Tech Deployed' | 'Resolved';
+export type SeverityLevel = 'Low' | 'Medium' | 'High' | 'Critical';
 
 export interface SiteRecord {
   id: string;
@@ -19,6 +20,7 @@ export interface SiteRecord {
   impairmentType?: string;
   proposedFix?: string;
   workOrderStage?: WorkOrderStage;
+  severity?: SeverityLevel;
 }
 
 export interface SummaryMetric {

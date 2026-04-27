@@ -1,6 +1,6 @@
 interface TabNavProps {
-  activeTab: 'overview' | 'actions';
-  onChange: (tab: 'overview' | 'actions') => void;
+  activeTab: 'overview' | 'actions' | 'avaldata';
+  onChange: (tab: 'overview' | 'actions' | 'avaldata') => void;
 }
 
 export function TabNav({ activeTab, onChange }: TabNavProps) {
@@ -17,6 +17,12 @@ export function TabNav({ activeTab, onChange }: TabNavProps) {
         onClick={() => onChange('actions')}
       >
         Impairments & Actions
+      </button>
+      <button
+        className={activeTab === 'avaldata' ? 'tab-nav__item tab-nav__item--active' : 'tab-nav__item'}
+        onClick={() => onChange('avaldata')}
+      >
+        Available Data Points
       </button>
     </div>
   );

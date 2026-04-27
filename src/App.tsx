@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { BrandMark } from './components/BrandMark';
+import { AvailableDataBoard } from './components/AvailableDataBoard';
 import { ImpairmentActionBoard } from './components/ImpairmentActionBoard';
 import { InteractivePieCard } from './components/InteractivePieCard';
 import { KpiCard } from './components/KpiCard';
@@ -18,7 +19,7 @@ import {
 } from './utils/reportMath';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'actions'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'actions' | 'avaldata'>('overview');
   const [activeFilter, setActiveFilter] = useState<FilterToken>('ALL');
 
   const testedCount = countWhere(siteRecords, (record) => record.pumpTest === 'Tested');
@@ -132,8 +133,10 @@ export default function App() {
 
               <TroubleTable title={activeFilterLabel(activeFilter)} records={filteredRecords} />
             </>
-          ) : (
+          ) : activeTab === 'actions' ? (
             <ImpairmentActionBoard records={impairmentActionRecords} />
+          ) : (
+            <AvailableDataBoard />
           )}
 
           <footer className="report-footer">Generated {reportMeta.generatedAt}</footer>

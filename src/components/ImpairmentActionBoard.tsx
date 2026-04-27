@@ -1,9 +1,24 @@
-import type { SiteRecord } from '../types/report';
+import type { SiteRecord, SeverityLevel } from '../types/report';
 import { buildProgress, stagePercent } from '../utils/reportMath';
 
 interface ImpairmentActionBoardProps {
   records: SiteRecord[];
 }
+function severityClassName(severity?: SeverityLevel){
+  switch(severity){
+    case 'Low':
+      return 'severity-pill severity-pill--low';
+    case 'Medium':
+      return 'severity-pill severity-pill--medium';
+    case 'High':
+      return 'severity-pill severity-pill--high';
+    case 'Critical':
+      return 'severity-pill severity-pill--critical';
+    default:
+      return 'severity-pill severity-pill--medium';
+  }
+}
+
 
 export function ImpairmentActionBoard({ records }: ImpairmentActionBoardProps) {
   return (
@@ -28,8 +43,8 @@ export function ImpairmentActionBoard({ records }: ImpairmentActionBoardProps) {
                 <div className="action-card__left">
                   <div className="action-card__meta">
                     <span className="status-pill status-pill--outline">Site #{record.siteNumber}</span>
+                    <span className={severityClassName(record.severity)}>{record.severity ?? 'Medium'}</span>
                     <span className="action-card__small">{record.region}</span>
-                    <span className="action-card__small">{record.assetId}</span>
                   </div>
                   <h4>{record.impairmentType}</h4>
                   <p className="action-card__subtext">
