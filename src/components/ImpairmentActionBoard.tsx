@@ -1,11 +1,22 @@
+import { useMemo, useState } from 'react';
 import type { SiteRecord, SeverityLevel } from '../types/report';
 import { buildProgress, stagePercent } from '../utils/reportMath';
 
 interface ImpairmentActionBoardProps {
   records: SiteRecord[];
 }
-function severityClassName(severity?: SeverityLevel){
-  switch(severity){
+
+type SeveritySort = 'highest' | 'lowest';
+
+const severityRank: Record<SeverityLevel, number> = {
+  Low: 1,
+  Medium: 2,
+  High: 3,
+  Critical: 4,
+};
+
+function severityClassName(severity?: SeverityLevel) {
+  switch (severity) {
     case 'Low':
       return 'severity-pill severity-pill--low';
     case 'Medium':
@@ -19,8 +30,26 @@ function severityClassName(severity?: SeverityLevel){
   }
 }
 
-
 export function ImpairmentActionBoard({ records }: ImpairmentActionBoardProps) {
+  const [severitySort, setSeveritySort] = useState<SeveritySort>('highest');
+
+  const sortedRecords = useMemo(() => {
+    const copy = [...records];
+
+    copy.sort((a, b) => {
+      const aRank = severityRank[a.severity ?? 'Medium'];
+      const bRank = severityRank[b.severity ?? 'Medium'];
+
+      if (severitySort === 'highest') {
+        return bRank - aRank;
+      }
+
+      return aRank - bRank;
+    });
+
+    return copy;
+  }, [records, severitySort]);
+
   return (
     <section className="action-layout">
       <div className="panel action-panel">
@@ -29,11 +58,42 @@ export function ImpairmentActionBoard({ records }: ImpairmentActionBoardProps) {
             <div className="panel__eyebrow">Detected Impairments</div>
             <h3>Action queue</h3>
           </div>
-          <div className="panel__count">{records.length} active items</div>
+
+          <div className="action-panel__header-right">
+            <div className="panel__count">
+              {records.length} active items
+            </div>
+
+            <div className="sort-group">
+              <button
+                type="button"
+                className={
+                  severitySort === 'highest'
+                    ? 'sort-button sort-button--active'
+                    : 'sort-button'
+                }
+                onClick={() => setSeveritySort('highest')}
+              >
+                Severity: High to Low
+              </button>
+
+              <button
+                type="button"
+                className={
+                  severitySort === 'lowest'
+                    ? 'sort-button sort-button--active'
+                    : 'sort-button'
+                }
+                onClick={() => setSeveritySort('lowest')}
+              >
+                Severity: Low to High
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="action-cards">
-          {records.map((record) => {
+          {sortedRecords.map((record) => {
             const stage = record.workOrderStage ?? 'Not Started';
             const steps = buildProgress(stage);
             const percent = stagePercent(stage);
@@ -42,11 +102,19 @@ export function ImpairmentActionBoard({ records }: ImpairmentActionBoardProps) {
               <article className="action-card" key={record.id}>
                 <div className="action-card__left">
                   <div className="action-card__meta">
-                    <span className="status-pill status-pill--outline">Site #{record.siteNumber}</span>
-                    <span className={severityClassName(record.severity)}>{record.severity ?? 'Medium'}</span>
-                    <span className="action-card__small">{record.region}</span>
+                    <span className="status-pill status-pill--outline">
+                      Site #{record.siteNumber}
+                    </span>
+                    <span className={severityClassName(record.severity)}>
+                      {record.severity ?? 'Medium'}
+                    </span>
+                    <span className="action-card__small">
+                      {record.region}
+                    </span>
                   </div>
+
                   <h4>{record.impairmentType}</h4>
+
                   <p className="action-card__subtext">
                     {record.location} • {record.driverType} • {record.controller}
                   </p>
@@ -59,17 +127,29 @@ export function ImpairmentActionBoard({ records }: ImpairmentActionBoardProps) {
 
                 <div className="action-card__right">
                   <div className="action-card__label">Progress</div>
+
                   <div className="progress-track">
-                    <div className="progress-track__fill" style={{ width: `${percent}%` }} />
+                    <div
+                      className="progress-track__fill"
+                      style={{ width: `${percent}%` }}
+                    />
                   </div>
+
                   <div className="progress-step-row">
                     {steps.map((step) => (
                       <div className="progress-step" key={step.label}>
-                        <div className={step.completed ? 'progress-step__dot progress-step__dot--done' : 'progress-step__dot'} />
+                        <div
+                          className={
+                            step.completed
+                              ? 'progress-step__dot progress-step__dot--done'
+                              : 'progress-step__dot'
+                          }
+                        />
                         <span>{step.label}</span>
                       </div>
                     ))}
                   </div>
+
                   <div className="action-card__stage">{stage}</div>
                 </div>
               </article>
